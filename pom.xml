@@ -35,6 +35,12 @@
   <description>Celements Subsystem Migration Manager</description> 
   <dependencies>    
     <!-- Add here all your dependencies -->
+    <dependency>
+      <groupId>com.celements</groupId>
+      <artifactId>celements-core</artifactId>
+      <version>1.47</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>  
   <scm>
     <connection>scm:git:git@github.com:celements/cel-subsystemMigrationManager.git</connection>
