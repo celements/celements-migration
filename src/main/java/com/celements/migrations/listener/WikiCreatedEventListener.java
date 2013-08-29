@@ -60,6 +60,7 @@ public class WikiCreatedEventListener implements EventListener {
   }
 
   public void onEvent(Event event, Object source, Object data) {
+    LOGGER.debug("enter onEvent in WikiCreatedEventListener.");
     String saveDbName = getContext().getDatabase();
     try {
       WikiEvent wikiEvent = (WikiEvent) event;
