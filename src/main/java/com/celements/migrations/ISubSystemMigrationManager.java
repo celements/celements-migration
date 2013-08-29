@@ -31,4 +31,6 @@ public interface ISubSystemMigrationManager {
 
   public String getSubSystemName();
 
+  public void initDatabaseVersion(XWikiContext context);
+
 }

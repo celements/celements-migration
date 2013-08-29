@@ -126,4 +126,28 @@ public class SubSystemHibernateMigrationManager extends AbstractXWikiMigrationMa
     return Collections.emptyList();
   }
 
+  public void initDatabaseVersion(XWikiContext context) {
+    try {
+      List<? extends XWikiMigratorInterface> allMigrations = getAllMigrations(context);
+      XWikiDBVersion maxVersion = getDBVersion(context);
+      if (maxVersion.equals(new XWikiDBVersion(0))) {
+        for(XWikiMigratorInterface theMigration : allMigrations) {
+          XWikiDBVersion theVersion = theMigration.getVersion();
+          if ((maxVersion == null) || (theVersion.compareTo(maxVersion) > 0)) {
+            maxVersion = theVersion;
+          }
+        }
+        LOGGER.info("init database version for subsystem [" + getSubSystemName()
+            + "] with  [" + maxVersion + "] .");
+        setDBVersion(maxVersion, context);
+      } else {
+        LOGGER.info("skip init database version for subsystem [" + getSubSystemName()
+            + "] already found version [" + maxVersion + "] .");
+      }
+    } catch (XWikiException exp) {
+      LOGGER.error("failed to init database version for [" + context.getDatabase() + "].",
+          exp);
+    }
+  }
+
 }

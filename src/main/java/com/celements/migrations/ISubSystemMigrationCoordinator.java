@@ -29,4 +29,6 @@ public interface ISubSystemMigrationCoordinator {
 
   public void startSubSystemMigrations(XWikiContext context) throws XWikiException;
 
+  public void initDatabaseVersions(XWikiContext context);
+
 }
