@@ -56,6 +56,7 @@ public class MigrationWikiCreatedEventListener implements EventListener {
   }
 
   public List<Event> getEvents() {
+    LOGGER.trace("MigrationWikiCreatedEventListener getEvents called.");
     return Arrays.<Event>asList(new WikiCreatedEvent());
   }
 
