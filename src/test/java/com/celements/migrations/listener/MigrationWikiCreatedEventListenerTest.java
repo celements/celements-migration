@@ -17,48 +17,32 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.celements.migrator;
+package com.celements.migrations.listener;
 
-import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.observation.EventListener;
 
 import com.celements.common.test.AbstractBridgedComponentTestCase;
-import com.xpn.xwiki.XWiki;
-import com.xpn.xwiki.XWikiContext;
+import com.xpn.xwiki.web.Utils;
 
-public class MenuNameMappingCelements2_8Test extends AbstractBridgedComponentTestCase {
+public class MigrationWikiCreatedEventListenerTest
+    extends AbstractBridgedComponentTestCase {
 
-  private MenuNameMappingCelements2_8 migrator;
-  private XWikiContext context;
-  private XWiki xwiki;
+  private MigrationWikiCreatedEventListener wikiCreatedEventListener;
 
   @Before
-  public void setUp_MenuNameMappingCelements2_8Test() throws Exception {
-    context = getContext();
-    xwiki = createMock(XWiki.class);
-    context.setWiki(xwiki);
-    migrator = new MenuNameMappingCelements2_8();
+  public void setUp_WikiCreatedEventListenerTest() throws Exception {
+    wikiCreatedEventListener = (MigrationWikiCreatedEventListener) Utils.getComponent(
+        EventListener.class, "celements.migrations.WikiCreatedEventListener");
   }
 
   @Test
-  public void testGetNavigationClasses() {
-    replayAll();
-    assertNotNull(migrator.getNavigationClasses());
-    verifyAll();
-  }
-
-
-  private void replayAll(Object ... mocks) {
-    replay(xwiki);
-    replay(mocks);
-  }
-
-  private void verifyAll(Object ... mocks) {
-    verify(xwiki);
-    verify(mocks);
+  public void testSingletonComponent() {
+    assertSame(wikiCreatedEventListener, Utils.getComponent(EventListener.class,
+        "celements.migrations.WikiCreatedEventListener"));
   }
 
 }

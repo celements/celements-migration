@@ -36,10 +36,10 @@ import com.celements.migrations.ISubSystemMigrationCoordinator;
 import com.xpn.xwiki.XWikiContext;
 
 @Component("celements.migrations.WikiCreatedEventListener")
-public class WikiCreatedEventListener implements EventListener {
+public class MigrationWikiCreatedEventListener implements EventListener {
 
   private static Log LOGGER = LogFactory.getFactory().getInstance(
-      WikiCreatedEventListener.class);
+      MigrationWikiCreatedEventListener.class);
 
   @Requirement
   ISubSystemMigrationCoordinator migrationCoordinator;
