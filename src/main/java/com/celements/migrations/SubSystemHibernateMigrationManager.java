@@ -138,9 +138,10 @@ public class SubSystemHibernateMigrationManager extends AbstractXWikiMigrationMa
             maxVersion = theVersion;
           }
         }
+        XWikiDBVersion newVersion = maxVersion.increment();
         LOGGER.info("init database version for subsystem [" + getSubSystemName()
-            + "] with  [" + maxVersion + "] .");
-        setDBVersion(maxVersion, context);
+            + "] with  [" + newVersion + "] .");
+        setDBVersion(newVersion, context);
       } else {
         LOGGER.info("skip init database version for subsystem [" + getSubSystemName()
             + "] already found version [" + maxVersion + "] .");
