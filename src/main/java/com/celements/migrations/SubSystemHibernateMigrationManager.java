@@ -19,7 +19,9 @@
  */
 package com.celements.migrations;
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -101,6 +103,40 @@ public class SubSystemHibernateMigrationManager extends AbstractXWikiMigrationMa
         return null;
       }
     });
+  }
+
+  /** {@inheritDoc} */
+  /* XXX Override parrent implementation to FIX update of next db version!
+   */
+  @Override
+  protected void startMigrations(Collection migrations, XWikiContext context
+      ) throws Exception {
+    XWikiDBVersion startupVersion = getDBVersion(context);
+    XWikiDBVersion curversion = startupVersion;
+    for (Iterator it = migrations.iterator(); it.hasNext();) {
+      XWikiMigration migration = (XWikiMigration) it.next();
+
+      if (migration.isForced || migration.migrator.shouldExecute(startupVersion)) {
+        if (LOGGER.isInfoEnabled()) {
+          LOGGER.info("Running migration [" + migration.migrator.getName()
+              + "] with version [" + migration.migrator.getVersion() + "]");
+        }
+        migration.migrator.migrate(this, context);
+      } else {
+        if (LOGGER.isInfoEnabled()) {
+          LOGGER.info("Skipping unneeded migration [" + migration.migrator.getName()
+              + "] with version [" + migration.migrator.getVersion() + "]");
+        }
+      }
+
+      if (migration.migrator.getVersion().compareTo(curversion) >= 0) {
+        setDBVersion(migration.migrator.getVersion().increment(), context);
+        if (LOGGER.isInfoEnabled()) {
+          LOGGER.info("New storage version is now [" + startupVersion + "]");
+        }
+      }
+
+    }
   }
 
   public String getSubSystemName() {
