@@ -130,7 +130,8 @@ public class SubSystemHibernateMigrationManager extends AbstractXWikiMigrationMa
     try {
       List<? extends XWikiMigratorInterface> allMigrations = getAllMigrations(context);
       XWikiDBVersion maxVersion = getDBVersion(context);
-      if (maxVersion.equals(new XWikiDBVersion(0))) {
+      //CAUTION: equals is not implemented on XWikiDBVersion!
+      if ((maxVersion == null) || (maxVersion.compareTo(new XWikiDBVersion(0)) == 0)) {
         for(XWikiMigratorInterface theMigration : allMigrations) {
           XWikiDBVersion theVersion = theMigration.getVersion();
           if ((maxVersion == null) || (theVersion.compareTo(maxVersion) > 0)) {
