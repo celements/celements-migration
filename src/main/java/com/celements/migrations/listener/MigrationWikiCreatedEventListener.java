@@ -68,7 +68,7 @@ public class MigrationWikiCreatedEventListener implements EventListener {
       String newDbName = wikiEvent.getWikiId();
       getContext().setDatabase(newDbName);
       LOGGER.info("received wikiEvent [" + wikiEvent.getClass() + "] for wikiId ["
-          + newDbName + "] now executing checkAllMandatoryDocuments.");
+          + newDbName + "] now executing initDatabaseVersions.");
       migrationCoordinator.initDatabaseVersions(getContext());
     } finally {
       LOGGER.debug("finishing onEvent in WikiCreatedEventListener for wikiId ["
