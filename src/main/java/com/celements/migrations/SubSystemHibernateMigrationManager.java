@@ -111,12 +111,11 @@ public class SubSystemHibernateMigrationManager extends AbstractXWikiMigrationMa
   @Override
   protected void startMigrations(Collection migrations, XWikiContext context
       ) throws Exception {
-    XWikiDBVersion startupVersion = getDBVersion(context);
-    XWikiDBVersion curversion = startupVersion;
+    XWikiDBVersion curversion = getDBVersion(context);
     for (Iterator it = migrations.iterator(); it.hasNext();) {
       XWikiMigration migration = (XWikiMigration) it.next();
 
-      if (migration.isForced || migration.migrator.shouldExecute(startupVersion)) {
+      if (migration.isForced || migration.migrator.shouldExecute(curversion)) {
         if (LOGGER.isInfoEnabled()) {
           LOGGER.info("Running migration [" + migration.migrator.getName()
               + "] with version [" + migration.migrator.getVersion() + "]");
@@ -132,8 +131,11 @@ public class SubSystemHibernateMigrationManager extends AbstractXWikiMigrationMa
       if (migration.migrator.getVersion().compareTo(curversion) >= 0) {
         setDBVersion(migration.migrator.getVersion().increment(), context);
         if (LOGGER.isInfoEnabled()) {
-          LOGGER.info("New storage version is now [" + startupVersion + "]");
+          LOGGER.info("New storage version is now [" + getDBVersion(context) + "]");
         }
+      } else {
+        LOGGER.info("NO new storage version set because compare is: "
+            + migration.migrator.getVersion().compareTo(curversion));
       }
 
     }
