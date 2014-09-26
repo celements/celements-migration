@@ -19,10 +19,14 @@
  */
 package com.celements.migrations;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,6 +59,23 @@ public class SubSystemHibernateMigrationManager extends AbstractXWikiMigrationMa
     super(context);
     this.subSystemName = subSystemName;
     this.subMigratorInterface = subMigratorInterface;
+  }
+
+  @Override
+  protected Map<XWikiDBVersion, XWikiMigration> getForcedMigrations(
+      XWikiContext context) throws Exception {
+    SortedMap<XWikiDBVersion, XWikiMigration> forcedMigrations =
+        new TreeMap<XWikiDBVersion, XWikiMigration>();
+    List<String> forcedMigrationsArray = Arrays.asList(context.getWiki().getConfig(
+        ).getPropertyAsList("xwiki.store.migration.force"));
+    for (XWikiMigratorInterface migrator : getAllMigrations(context)) {
+      String migratorName = migrator.getClass().getName();
+      if (forcedMigrationsArray.contains(migratorName)) {
+        XWikiMigration migration = new XWikiMigration(migrator, true);
+        forcedMigrations.put(migrator.getVersion(), migration);
+      }
+    }
+    return forcedMigrations;
   }
 
   /**
