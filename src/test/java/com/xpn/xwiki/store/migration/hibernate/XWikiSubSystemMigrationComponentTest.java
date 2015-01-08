@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.celements.migrations;
+package com.xpn.xwiki.store.migration.hibernate;
 
 
 import static org.easymock.EasyMock.*;
@@ -28,10 +28,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.celements.common.test.AbstractBridgedComponentTestCase;
+import com.celements.migrations.ISubSystemMigrationManager;
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiConfig;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.store.migration.hibernate.XWikiHibernateMigrationManager;
+import com.xpn.xwiki.store.migration.hibernate.XWikiSubSystemMigrationComponent;
 import com.xpn.xwiki.web.Utils;
 
 public class XWikiSubSystemMigrationComponentTest extends AbstractBridgedComponentTestCase {

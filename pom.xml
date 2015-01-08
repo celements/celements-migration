@@ -45,5 +45,6 @@
     <connection>scm:git:git@github.com:celements/cel-subsystemMigrationManager.git</connection>
     <developerConnection>scm:git:git@github.com:celements/cel-subsystemMigrationManager.git</developerConnection>
     <url>https://github.com/celements/cel-subsystemMigrationManager</url>
+    <tag>HEAD</tag>
   </scm>
 </project>

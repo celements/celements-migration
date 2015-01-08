@@ -17,15 +17,19 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.celements.migrations;
+package com.xpn.xwiki.store.migration.hibernate;
+
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xwiki.component.annotation.Component;
 
+import com.celements.migrations.ISubSystemMigrationManager;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
-import com.xpn.xwiki.store.migration.hibernate.XWikiHibernateMigrationManager;
+import com.xpn.xwiki.store.migration.XWikiDBVersion;
+import com.xpn.xwiki.store.migration.XWikiMigratorInterface;
 
 /**
  * TODO MigrationManager in XWiki was improved and "componentized" in 3.4
@@ -45,8 +49,8 @@ import com.xpn.xwiki.store.migration.hibernate.XWikiHibernateMigrationManager;
 @Component("XWikiSubSystem")
 public class XWikiSubSystemMigrationComponent implements ISubSystemMigrationManager {
 
-  private static Log mLogger = LogFactory.getFactory().getInstance(
-      CelSubSystemMigrationCoordinator.class);
+  private static Log LOGGER = LogFactory.getFactory().getInstance(
+      XWikiSubSystemMigrationComponent.class);
   XWikiHibernateMigrationManager injected_MigrationManager;
 
   public String getSubSystemName() {
@@ -58,7 +62,7 @@ public class XWikiSubSystemMigrationComponent implements ISubSystemMigrationMana
     try {
       xwikiMigrationManager = getXWikiHibernateMigrationManager(context);
     } catch (XWikiException exp) {
-      mLogger.error("Failed to instanciate XWikiHibernateMigrationManager!", exp);
+      LOGGER.error("Failed to instanciate XWikiHibernateMigrationManager!", exp);
     }
     if (xwikiMigrationManager != null) {
       xwikiMigrationManager.startMigrations(context);
@@ -71,6 +75,35 @@ public class XWikiSubSystemMigrationComponent implements ISubSystemMigrationMana
       return injected_MigrationManager;
     }
     return new XWikiHibernateMigrationManager(context);
+  }
+
+  public void initDatabaseVersion(XWikiContext context) {
+    try {
+      XWikiHibernateMigrationManager subSystemMigManager =
+          getXWikiHibernateMigrationManager(context);
+      List<? extends XWikiMigratorInterface> allMigrations =
+          subSystemMigManager.getAllMigrations(context);
+      XWikiDBVersion maxVersion = subSystemMigManager.getDBVersion(context);
+      //CAUTION: equals is not implemented on XWikiDBVersion!
+      if ((maxVersion == null) || (maxVersion.compareTo(new XWikiDBVersion(0)) == 0)) {
+        for(XWikiMigratorInterface theMigration : allMigrations) {
+          XWikiDBVersion theVersion = theMigration.getVersion();
+          if ((maxVersion == null) || (theVersion.compareTo(maxVersion) > 0)) {
+            maxVersion = theVersion;
+          }
+        }
+        XWikiDBVersion newVersion = maxVersion.increment();
+        LOGGER.info("init database version for subsystem [" + getSubSystemName()
+            + "] with  [" + newVersion + "] .");
+        subSystemMigManager.setDBVersion(newVersion, context);
+      } else {
+        LOGGER.info("skip init database version for subsystem [" + getSubSystemName()
+            + "] already found version [" + maxVersion + "] .");
+      }
+    } catch (XWikiException exp) {
+      LOGGER.error("failed to init database version for [" + context.getDatabase() + "].",
+          exp);
+    }
   }
 
 }

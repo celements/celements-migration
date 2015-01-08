@@ -19,8 +19,8 @@
  */
 package com.celements.migrator;
 
-import com.celements.migrations.ICelementsMigrator;
 import com.celements.migrations.SubSystemHibernateMigrationManager;
+import com.celements.migrations.celSubSystem.ICelementsMigrator;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.store.migration.XWikiDBVersion;

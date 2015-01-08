@@ -17,12 +17,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.celements.migrations;
+package com.celements.migrations.celSubSystem;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xwiki.component.annotation.Component;
 
+import com.celements.migrations.ISubSystemMigrationManager;
+import com.celements.migrations.SubSystemHibernateMigrationManager;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
 
@@ -57,6 +59,17 @@ public class CelementsSubSystemMigrationComponent implements ISubSystemMigration
     }
     return new SubSystemHibernateMigrationManager(context, getSubSystemName(),
         ICelementsMigrator.class);
+  }
+
+  public void initDatabaseVersion(XWikiContext context) {
+    try {
+      SubSystemHibernateMigrationManager subSystemMigManager =
+          getSubSystemHibernateMigrationManager(context);
+      subSystemMigManager.initDatabaseVersion(context);
+    } catch (XWikiException exp) {
+      LOGGER.error("failed to init database version for [" + context.getDatabase() + "].",
+          exp);
+    }
   }
 
 }

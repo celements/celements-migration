@@ -50,13 +50,7 @@ public class CelSubSystemMigrationCoordinator implements ISubSystemMigrationCoor
 
   public void startSubSystemMigrations(XWikiContext context) throws XWikiException {
     if ((subSysMigrationManagerMap != null) && (subSysMigrationManagerMap.size() > 0)) {
-      LOGGER.debug("Found [" + subSysMigrationManagerMap.size()
-          + "] SubSystemMigrationManagers [" + subSysMigrationManagerMap.keySet() + "].");
-      String[] subSysMigConfig = context.getWiki().getConfig().getPropertyAsList(
-          "celements.subsystems.migration.manager.order");
-      if (subSysMigConfig.length == 0) {
-        subSysMigConfig = new String[]{"XWikiSubSystem"};
-      }
+      String[] subSysMigConfig = getSubSysMigConfig(context);
       LOGGER.info("executing following subsystem migration manager in this order: "
           + Arrays.deepToString(subSysMigConfig));
       for (String subSystemHintName : subSysMigConfig) {
@@ -76,6 +70,32 @@ public class CelSubSystemMigrationCoordinator implements ISubSystemMigrationCoor
     } else {
       LOGGER.fatal("allSubMigrationManagers is empty. Expecting at least the"
           + " xwikiSubSystem migration manager. " + subSysMigrationManagerMap);
+    }
+  }
+
+  private String[] getSubSysMigConfig(XWikiContext context) {
+    LOGGER.debug("Found [" + subSysMigrationManagerMap.size()
+        + "] SubSystemMigrationManagers [" + subSysMigrationManagerMap.keySet() + "].");
+    String[] subSysMigConfig = context.getWiki().getConfig().getPropertyAsList(
+        "celements.subsystems.migration.manager.order");
+    if (subSysMigConfig.length == 0) {
+      subSysMigConfig = new String[]{"XWikiSubSystem"};
+    }
+    return subSysMigConfig;
+  }
+
+  public void initDatabaseVersions(XWikiContext context) {
+    String[] subSysMigConfig = getSubSysMigConfig(context);
+    LOGGER.info("init database version for the following subsystem migration manager in"
+        + " this order: " + Arrays.deepToString(subSysMigConfig));
+    for (String subSystemHintName : subSysMigConfig) {
+      ISubSystemMigrationManager subSystemMigrationManager =
+        subSysMigrationManagerMap.get(subSystemHintName);
+      LOGGER.info("initDatabaseVersions for ["
+          + subSystemMigrationManager.getSubSystemName() + "].");
+      subSystemMigrationManager.initDatabaseVersion(context);
+      LOGGER.info("finished migration for ["
+          + subSystemMigrationManager.getSubSystemName() + "].");
     }
   }
 

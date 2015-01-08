@@ -19,8 +19,14 @@
  */
 package com.celements.migrations;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -53,6 +59,23 @@ public class SubSystemHibernateMigrationManager extends AbstractXWikiMigrationMa
     super(context);
     this.subSystemName = subSystemName;
     this.subMigratorInterface = subMigratorInterface;
+  }
+
+  @Override
+  protected Map<XWikiDBVersion, XWikiMigration> getForcedMigrations(
+      XWikiContext context) throws Exception {
+    SortedMap<XWikiDBVersion, XWikiMigration> forcedMigrations =
+        new TreeMap<XWikiDBVersion, XWikiMigration>();
+    List<String> forcedMigrationsArray = Arrays.asList(context.getWiki().getConfig(
+        ).getPropertyAsList("xwiki.store.migration.force"));
+    for (XWikiMigratorInterface migrator : getAllMigrations(context)) {
+      String migratorName = migrator.getClass().getName();
+      if (forcedMigrationsArray.contains(migratorName)) {
+        XWikiMigration migration = new XWikiMigration(migrator, true);
+        forcedMigrations.put(migrator.getVersion(), migration);
+      }
+    }
+    return forcedMigrations;
   }
 
   /**
@@ -103,6 +126,42 @@ public class SubSystemHibernateMigrationManager extends AbstractXWikiMigrationMa
     });
   }
 
+  /** {@inheritDoc} */
+  /* XXX Override parrent implementation to FIX update of next db version!
+   */
+  @Override
+  protected void startMigrations(Collection migrations, XWikiContext context
+      ) throws Exception {
+    XWikiDBVersion curversion = getDBVersion(context);
+    for (Iterator it = migrations.iterator(); it.hasNext();) {
+      XWikiMigration migration = (XWikiMigration) it.next();
+
+      if (migration.isForced || migration.migrator.shouldExecute(curversion)) {
+        if (LOGGER.isInfoEnabled()) {
+          LOGGER.info("Running migration [" + migration.migrator.getName()
+              + "] with version [" + migration.migrator.getVersion() + "]");
+        }
+        migration.migrator.migrate(this, context);
+      } else {
+        if (LOGGER.isInfoEnabled()) {
+          LOGGER.info("Skipping unneeded migration [" + migration.migrator.getName()
+              + "] with version [" + migration.migrator.getVersion() + "]");
+        }
+      }
+
+      if (migration.migrator.getVersion().compareTo(curversion) >= 0) {
+        setDBVersion(migration.migrator.getVersion().increment(), context);
+        if (LOGGER.isInfoEnabled()) {
+          LOGGER.info("New storage version is now [" + getDBVersion(context) + "]");
+        }
+      } else {
+        LOGGER.info("NO new storage version set because compare is: "
+            + migration.migrator.getVersion().compareTo(curversion));
+      }
+
+    }
+  }
+
   public String getSubSystemName() {
     return subSystemName;
   }
@@ -124,6 +183,32 @@ public class SubSystemHibernateMigrationManager extends AbstractXWikiMigrationMa
     }
     LOGGER.debug("lookup for [" + subMigratorInterface + "] returned empty list.");
     return Collections.emptyList();
+  }
+
+  public void initDatabaseVersion(XWikiContext context) {
+    try {
+      List<? extends XWikiMigratorInterface> allMigrations = getAllMigrations(context);
+      XWikiDBVersion maxVersion = getDBVersion(context);
+      //CAUTION: equals is not implemented on XWikiDBVersion!
+      if ((maxVersion == null) || (maxVersion.compareTo(new XWikiDBVersion(0)) == 0)) {
+        for(XWikiMigratorInterface theMigration : allMigrations) {
+          XWikiDBVersion theVersion = theMigration.getVersion();
+          if ((maxVersion == null) || (theVersion.compareTo(maxVersion) > 0)) {
+            maxVersion = theVersion;
+          }
+        }
+        XWikiDBVersion newVersion = maxVersion.increment();
+        LOGGER.info("init database version for subsystem [" + getSubSystemName()
+            + "] with  [" + newVersion + "] .");
+        setDBVersion(newVersion, context);
+      } else {
+        LOGGER.info("skip init database version for subsystem [" + getSubSystemName()
+            + "] already found version [" + maxVersion + "] .");
+      }
+    } catch (XWikiException exp) {
+      LOGGER.error("failed to init database version for [" + context.getDatabase() + "].",
+          exp);
+    }
   }
 
 }

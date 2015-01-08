@@ -17,13 +17,32 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.celements.migrations;
+package com.celements.migrations.listener;
 
-import org.xwiki.component.annotation.ComponentRole;
+import static org.junit.Assert.*;
 
-import com.xpn.xwiki.store.migration.XWikiMigratorInterface;
+import org.junit.Before;
+import org.junit.Test;
+import org.xwiki.observation.EventListener;
 
-@ComponentRole
-public interface ICelementsMigrator extends XWikiMigratorInterface {
+import com.celements.common.test.AbstractBridgedComponentTestCase;
+import com.xpn.xwiki.web.Utils;
+
+public class MigrationWikiCreatedEventListenerTest
+    extends AbstractBridgedComponentTestCase {
+
+  private MigrationWikiCreatedEventListener wikiCreatedEventListener;
+
+  @Before
+  public void setUp_WikiCreatedEventListenerTest() throws Exception {
+    wikiCreatedEventListener = (MigrationWikiCreatedEventListener) Utils.getComponent(
+        EventListener.class, "celements.migrations.WikiCreatedEventListener");
+  }
+
+  @Test
+  public void testSingletonComponent() {
+    assertSame(wikiCreatedEventListener, Utils.getComponent(EventListener.class,
+        "celements.migrations.WikiCreatedEventListener"));
+  }
 
 }
