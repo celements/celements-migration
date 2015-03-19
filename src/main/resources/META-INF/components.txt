@@ -4,3 +4,4 @@ com.celements.migrations.celSubSystem.CelementsSubSystemMigrationComponent
 com.celements.migrator.MenuNameMappingCelements2_8
 com.celements.migrator.MenuBar_SubMenuItemsClassMigrator
 com.celements.migrations.listener.MigrationWikiCreatedEventListener
+com.celements.migrator.TreeNodeRelativeParent_Database
