@@ -30,7 +30,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>  
   <artifactId>celements-subsystem-migration-manager</artifactId>
-  <version>1.3-SNAPSHOT</version>
+  <version>1.3</version>
   <description>Celements Subsystem Migration Manager</description> 
   <dependencies>    
     <!-- Add here all your dependencies -->
@@ -45,6 +45,6 @@
     <connection>scm:git:git@github.com:celements/cel-subsystemMigrationManager.git</connection>
     <developerConnection>scm:git:git@github.com:celements/cel-subsystemMigrationManager.git</developerConnection>
     <url>https://github.com/celements/cel-subsystemMigrationManager</url>
-    <tag>HEAD</tag>
+    <tag>celements-subsystem-migration-manager-1.3</tag>
   </scm>
 </project>
