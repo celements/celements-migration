@@ -19,9 +19,7 @@
  */
 package com.xpn.xwiki.store.migration.hibernate;
 
-
 import static org.easymock.EasyMock.*;
-import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -32,8 +30,6 @@ import com.celements.migrations.ISubSystemMigrationManager;
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiConfig;
 import com.xpn.xwiki.XWikiContext;
-import com.xpn.xwiki.store.migration.hibernate.XWikiHibernateMigrationManager;
-import com.xpn.xwiki.store.migration.hibernate.XWikiSubSystemMigrationComponent;
 import com.xpn.xwiki.web.Utils;
 
 public class XWikiSubSystemMigrationComponentTest extends AbstractBridgedComponentTestCase {
@@ -70,11 +66,10 @@ public class XWikiSubSystemMigrationComponentTest extends AbstractBridgedCompone
     subSysMigManager.injected_MigrationManager = null;
     XWikiConfig configMock = createMock(XWikiConfig.class);
     expect(xwiki.getConfig()).andReturn(configMock).anyTimes();
-    expect(configMock.getProperty(eq("xwiki.store.migration.version"))).andReturn("2345"
-        ).anyTimes();
+    expect(configMock.getProperty(eq("xwiki.store.migration.version"))).andReturn("2345").anyTimes();
     replay(xwiki, configMock);
-    XWikiHibernateMigrationManager hibMigManager =
-      subSysMigManager.getXWikiHibernateMigrationManager(context);
+    XWikiHibernateMigrationManager hibMigManager = subSysMigManager
+        .getXWikiHibernateMigrationManager(context);
     assertNotNull(hibMigManager);
     assertNotSame(hibMigManager, subSysMigManager.getXWikiHibernateMigrationManager(
         context));

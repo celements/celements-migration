@@ -20,7 +20,6 @@
 package com.celements.migrations;
 
 import static org.easymock.EasyMock.*;
-import static org.easymock.classextension.EasyMock.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +32,7 @@ import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.web.Utils;
 
 public class CelSubSystemMigrationCoordinatorTest
-  extends AbstractBridgedComponentTestCase {
+    extends AbstractBridgedComponentTestCase {
 
   private XWikiContext context;
   private XWiki xwiki;
@@ -62,10 +61,9 @@ public class CelSubSystemMigrationCoordinatorTest
   public void testStartSubSystemMigrations_skip() throws Exception {
     XWikiConfig configMock = createMock(XWikiConfig.class);
     expect(xwiki.getConfig()).andReturn(configMock).anyTimes();
-    expect(configMock.getPropertyAsList(eq("celements.subsystems.migration.manager.order")
-      )).andReturn(new String[]{"testSubSystem"});
-    expect(xwiki.Param(eq("celements.subsystems.testSubSystem.migration"), eq("0")
-      )).andReturn("0");
+    expect(configMock.getPropertyAsList(eq("celements.subsystems.migration.manager.order")))
+        .andReturn(new String[] { "testSubSystem" });
+    expect(xwiki.Param(eq("celements.subsystems.testSubSystem.migration"), eq("0"))).andReturn("0");
     replay(xwiki, configMock, componentMock);
     celSubSysMigCoordinator.startSubSystemMigrations(context);
     verify(xwiki, configMock, componentMock);
@@ -75,10 +73,9 @@ public class CelSubSystemMigrationCoordinatorTest
   public void testStartSubSystemMigrations_execute() throws Exception {
     XWikiConfig configMock = createMock(XWikiConfig.class);
     expect(xwiki.getConfig()).andReturn(configMock).anyTimes();
-    expect(configMock.getPropertyAsList(eq("celements.subsystems.migration.manager.order")
-      )).andReturn(new String[]{"testSubSystem"});
-    expect(xwiki.Param(eq("celements.subsystems.testSubSystem.migration"), eq("0")
-      )).andReturn("1");
+    expect(configMock.getPropertyAsList(eq("celements.subsystems.migration.manager.order")))
+        .andReturn(new String[] { "testSubSystem" });
+    expect(xwiki.Param(eq("celements.subsystems.testSubSystem.migration"), eq("0"))).andReturn("1");
     expect(componentMock.getSubSystemName()).andReturn("testSubSystem").anyTimes();
     componentMock.startMigrations(same(context));
     expectLastCall().once();
