@@ -20,7 +20,6 @@
 package com.celements.migrations;
 
 import static org.easymock.EasyMock.*;
-import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -47,8 +46,7 @@ public class MigrationManagerBridgeTest extends AbstractBridgedComponentTestCase
     context.setWiki(xwiki);
     XWikiConfig configMock = createMock(XWikiConfig.class);
     expect(xwiki.getConfig()).andReturn(configMock).anyTimes();
-    expect(configMock.getProperty(eq("xwiki.store.migration.version"))).andReturn("2345"
-        ).anyTimes();
+    expect(configMock.getProperty(eq("xwiki.store.migration.version"))).andReturn("2345").anyTimes();
     replay(xwiki, configMock);
     migManagerBridge = new MigrationManagerBridge(context);
   }

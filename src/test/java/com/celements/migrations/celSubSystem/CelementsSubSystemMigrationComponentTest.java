@@ -19,9 +19,7 @@
  */
 package com.celements.migrations.celSubSystem;
 
-
 import static org.easymock.EasyMock.*;
-import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -30,16 +28,15 @@ import org.junit.Test;
 import com.celements.common.test.AbstractBridgedComponentTestCase;
 import com.celements.migrations.ISubSystemMigrationManager;
 import com.celements.migrations.SubSystemHibernateMigrationManager;
-import com.celements.migrations.celSubSystem.CelementsSubSystemMigrationComponent;
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiConfig;
 import com.xpn.xwiki.XWikiContext;
-import com.xpn.xwiki.store.XWikiHibernateStore;
 import com.xpn.xwiki.store.XWikiHibernateBaseStore.HibernateCallback;
+import com.xpn.xwiki.store.XWikiHibernateStore;
 import com.xpn.xwiki.web.Utils;
 
 public class CelementsSubSystemMigrationComponentTest
-  extends AbstractBridgedComponentTestCase {
+    extends AbstractBridgedComponentTestCase {
 
   private XWikiContext context;
   private XWiki xwiki;
@@ -74,15 +71,14 @@ public class CelementsSubSystemMigrationComponentTest
     subSysMigManager.injected_MigrationManager = null;
     XWikiConfig configMock = createMock(XWikiConfig.class);
     expect(xwiki.getConfig()).andReturn(configMock).anyTimes();
-    expect(configMock.getProperty(eq("xwiki.store.migration.version"))).andReturn("2345"
-        ).anyTimes();
+    expect(configMock.getProperty(eq("xwiki.store.migration.version"))).andReturn("2345").anyTimes();
     XWikiHibernateStore storeMock = createMock(XWikiHibernateStore.class);
     expect(xwiki.getHibernateStore()).andReturn(storeMock).anyTimes();
-    expect(storeMock.executeRead(same(context), eq(true), isA(HibernateCallback.class))
-        ).andReturn(null).anyTimes();
+    expect(storeMock.executeRead(same(context), eq(true), isA(HibernateCallback.class))).andReturn(null)
+        .anyTimes();
     replay(xwiki, configMock, storeMock);
-    SubSystemHibernateMigrationManager hibMigManager =
-      subSysMigManager.getSubSystemHibernateMigrationManager(context);
+    SubSystemHibernateMigrationManager hibMigManager = subSysMigManager
+        .getSubSystemHibernateMigrationManager(context);
     assertNotNull(hibMigManager);
     assertNotSame(hibMigManager, subSysMigManager.getSubSystemHibernateMigrationManager(
         context));
