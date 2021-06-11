@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  *
  * See the NOTICE file distributed with this work for additional
@@ -21,7 +20,6 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  *
 -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -34,11 +32,9 @@
   <artifactId>celements-subsystem-migration-manager</artifactId>
   <version>5.2-SNAPSHOT</version>
   <description>Celements Subsystem Migration Manager</description>
-
   <!-- NOTE: All dependencies copied from components-pom, changed parent to base-pom -->
   <dependencies>
     <!-- Add here all your dependencies -->
-
     <dependency>
       <groupId>com.celements</groupId>
       <artifactId>celements-shared-tests-deprecated</artifactId>
@@ -225,7 +221,6 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>
-<!-- TODO: https://synjira.atlassian.net/browse/CELDEV-813 -->
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
@@ -332,9 +327,7 @@
       <artifactId>easymock</artifactId>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
-
   <scm>
     <connection>scm:git:git@github.com:celements/cel-subsystemMigrationManager.git</connection>
     <developerConnection>scm:git:git@github.com:celements/cel-subsystemMigrationManager.git</developerConnection>
