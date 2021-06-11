@@ -22,13 +22,15 @@
  *
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
-      <groupId>com.celements</groupId>
-      <artifactId>base-pom</artifactId>
-      <version>5.2-SNAPSHOT</version>
+    <groupId>com.celements</groupId>
+    <artifactId>base-pom</artifactId>
+    <version>5.2-SNAPSHOT</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>  
+  <modelVersion>4.0.0</modelVersion>
   <artifactId>celements-subsystem-migration-manager</artifactId>
   <version>5.2-SNAPSHOT</version>
   <description>Celements Subsystem Migration Manager</description>
@@ -36,7 +38,7 @@
   <!-- NOTE: All dependencies copied from components-pom, changed parent to base-pom -->
   <dependencies>
     <!-- Add here all your dependencies -->
-    
+
     <dependency>
       <groupId>com.celements</groupId>
       <artifactId>celements-shared-tests-deprecated</artifactId>
@@ -215,9 +217,9 @@
 
     <!-- Commons -->
     <dependency>
-        <groupId>javax.validation</groupId>
-        <artifactId>validation-api</artifactId>
-        <version>2.0.1.Final</version>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>2.0.1.Final</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -237,18 +239,18 @@
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-core-lgpl</artifactId>
     </dependency>
-      <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-mapper-lgpl</artifactId>
-      </dependency>
-     <dependency>
-       <groupId>commons-logging</groupId>
-       <artifactId>commons-logging</artifactId>
-     </dependency>
-     <dependency>
-       <groupId>commons-logging</groupId>
-       <artifactId>commons-logging-api</artifactId>
-     </dependency>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-lgpl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging-api</artifactId>
+    </dependency>
     <dependency>
       <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>
@@ -337,6 +339,5 @@
     <connection>scm:git:git@github.com:celements/cel-subsystemMigrationManager.git</connection>
     <developerConnection>scm:git:git@github.com:celements/cel-subsystemMigrationManager.git</developerConnection>
     <url>https://github.com/celements/cel-subsystemMigrationManager</url>
-    <tag>HEAD</tag>
   </scm>
 </project>
