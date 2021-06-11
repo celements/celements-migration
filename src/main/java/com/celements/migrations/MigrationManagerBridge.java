@@ -21,8 +21,8 @@ package com.celements.migrations;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
@@ -41,7 +41,7 @@ import com.xpn.xwiki.web.Utils;
  */
 public class MigrationManagerBridge extends AbstractXWikiMigrationManager {
 
-  private static Log LOGGER = LogFactory.getFactory().getInstance(
+  private static final Logger LOGGER = LoggerFactory.getLogger(
       MigrationManagerBridge.class);
 
   public MigrationManagerBridge(XWikiContext context) throws XWikiException {

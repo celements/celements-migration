@@ -22,8 +22,8 @@ package com.celements.migrations.listener;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xwiki.bridge.event.WikiCreatedEvent;
 import org.xwiki.bridge.event.WikiEvent;
 import org.xwiki.component.annotation.Component;
@@ -38,7 +38,7 @@ import com.xpn.xwiki.XWikiContext;
 @Component("celements.migrations.WikiCreatedEventListener")
 public class MigrationWikiCreatedEventListener implements EventListener {
 
-  private static Log LOGGER = LogFactory.getFactory().getInstance(
+  private static final Logger LOGGER = LoggerFactory.getLogger(
       MigrationWikiCreatedEventListener.class);
 
   @Requirement

@@ -28,8 +28,8 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -46,7 +46,7 @@ import com.xpn.xwiki.web.Utils;
 
 public class SubSystemHibernateMigrationManager extends AbstractXWikiMigrationManager {
 
-  private static Log LOGGER = LogFactory.getFactory().getInstance(
+  private static final Logger LOGGER = LoggerFactory.getLogger(
       SubSystemHibernateMigrationManager.class);
 
   private String subSystemName;
