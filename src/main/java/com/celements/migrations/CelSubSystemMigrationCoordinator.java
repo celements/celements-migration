@@ -66,15 +66,14 @@ public class CelSubSystemMigrationCoordinator implements ISubSystemMigrationCoor
         }
       }
     } else {
-      LOGGER.error("allSubMigrationManagers is empty. Expecting at least the"
-          + " xwikiSubSystem migration manager. {}", subSysMigrationManagerMap);
+      LOGGER.error("allSubMigrationManagers is empty. Expecting at least the xwikiSubSystem"
+          + " migration manager. {}", subSysMigrationManagerMap);
     }
   }
 
   private String[] getSubSysMigConfig(XWikiContext context) {
-    LOGGER.debug(
-        "Found [{}] SubSystemMigrationManagers [{}].",
-        subSysMigrationManagerMap.size(), subSysMigrationManagerMap.keySet());
+    LOGGER.debug("Found [{}] SubSystemMigrationManagers [{}].", subSysMigrationManagerMap.size(),
+        subSysMigrationManagerMap.keySet());
     String[] subSysMigConfig = context.getWiki().getConfig().getPropertyAsList(
         "celements.subsystems.migration.manager.order");
     if (subSysMigConfig.length == 0) {
