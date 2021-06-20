@@ -36,10 +36,12 @@ public class CelementsSubSystemMigrationComponent implements ISubSystemMigration
 
   SubSystemHibernateMigrationManager injected_MigrationManager;
 
+  @Override
   public String getSubSystemName() {
     return "CelementsSubSystem";
   }
 
+  @Override
   public void startMigrations(XWikiContext context) throws XWikiException {
     SubSystemHibernateMigrationManager celMigrationManager = null;
     try {
@@ -61,14 +63,14 @@ public class CelementsSubSystemMigrationComponent implements ISubSystemMigration
         ICelementsMigrator.class);
   }
 
+  @Override
   public void initDatabaseVersion(XWikiContext context) {
     try {
-      SubSystemHibernateMigrationManager subSystemMigManager =
-          getSubSystemHibernateMigrationManager(context);
+      SubSystemHibernateMigrationManager subSystemMigManager = getSubSystemHibernateMigrationManager(
+          context);
       subSystemMigManager.initDatabaseVersion(context);
     } catch (XWikiException exp) {
-      LOGGER.error("failed to init database version for [" + context.getDatabase() + "].",
-          exp);
+      LOGGER.error("failed to init database version for [" + context.getDatabase() + "].", exp);
     }
   }
 
