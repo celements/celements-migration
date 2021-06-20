@@ -70,7 +70,7 @@ public class CelementsSubSystemMigrationComponent implements ISubSystemMigration
           context);
       subSystemMigManager.initDatabaseVersion(context);
     } catch (XWikiException exp) {
-      LOGGER.error("failed to init database version for [" + context.getDatabase() + "].", exp);
+      LOGGER.error("failed to init database version for [{}].", context.getDatabase(), exp);
     }
   }
 
