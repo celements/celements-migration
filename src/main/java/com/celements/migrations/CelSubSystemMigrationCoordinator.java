@@ -54,8 +54,8 @@ public class CelSubSystemMigrationCoordinator implements ISubSystemMigrationCoor
             Arrays.deepToString(subSysMigConfig));
       }
       for (String subSystemHintName : subSysMigConfig) {
-        ISubSystemMigrationManager subSystemMigrationManager = subSysMigrationManagerMap
-            .get(subSystemHintName);
+        ISubSystemMigrationManager subSystemMigrationManager = subSysMigrationManagerMap.get(
+            subSystemHintName);
         if ("1".equals(context.getWiki().Param("celements.subsystems." + subSystemHintName
             + ".migration", "0"))) {
           LOGGER.info("starting migration for [{}].", subSystemMigrationManager.getSubSystemName());
@@ -86,12 +86,12 @@ public class CelSubSystemMigrationCoordinator implements ISubSystemMigrationCoor
   public void initDatabaseVersions(XWikiContext context) {
     String[] subSysMigConfig = getSubSysMigConfig(context);
     if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("init database version for the following subsystem migration manager in"
-          + " this order: {}", Arrays.deepToString(subSysMigConfig));
+      LOGGER.info("init database version for the following subsystem migration manager in this"
+          + " order: {}", Arrays.deepToString(subSysMigConfig));
     }
     for (String subSystemHintName : subSysMigConfig) {
-      ISubSystemMigrationManager subSystemMigrationManager = subSysMigrationManagerMap
-          .get(subSystemHintName);
+      ISubSystemMigrationManager subSystemMigrationManager = subSysMigrationManagerMap.get(
+          subSystemHintName);
       LOGGER.info("initDatabaseVersions for [{}].", subSystemMigrationManager.getSubSystemName());
       subSystemMigrationManager.initDatabaseVersion(context);
       LOGGER.info("finished migration for [{}].", subSystemMigrationManager.getSubSystemName());
