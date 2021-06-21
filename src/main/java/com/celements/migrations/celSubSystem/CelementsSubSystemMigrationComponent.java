@@ -19,8 +19,8 @@
  */
 package com.celements.migrations.celSubSystem;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xwiki.component.annotation.Component;
 
 import com.celements.migrations.ISubSystemMigrationManager;
@@ -31,15 +31,17 @@ import com.xpn.xwiki.XWikiException;
 @Component("CelementsSubSystem")
 public class CelementsSubSystemMigrationComponent implements ISubSystemMigrationManager {
 
-  private static Log LOGGER = LogFactory.getFactory().getInstance(
+  private static final Logger LOGGER = LoggerFactory.getLogger(
       CelementsSubSystemMigrationComponent.class);
 
   SubSystemHibernateMigrationManager injected_MigrationManager;
 
+  @Override
   public String getSubSystemName() {
     return "CelementsSubSystem";
   }
 
+  @Override
   public void startMigrations(XWikiContext context) throws XWikiException {
     SubSystemHibernateMigrationManager celMigrationManager = null;
     try {
@@ -61,14 +63,14 @@ public class CelementsSubSystemMigrationComponent implements ISubSystemMigration
         ICelementsMigrator.class);
   }
 
+  @Override
   public void initDatabaseVersion(XWikiContext context) {
     try {
-      SubSystemHibernateMigrationManager subSystemMigManager =
-          getSubSystemHibernateMigrationManager(context);
+      SubSystemHibernateMigrationManager subSystemMigManager = getSubSystemHibernateMigrationManager(
+          context);
       subSystemMigManager.initDatabaseVersion(context);
     } catch (XWikiException exp) {
-      LOGGER.error("failed to init database version for [" + context.getDatabase() + "].",
-          exp);
+      LOGGER.error("failed to init database version for [{}].", context.getDatabase(), exp);
     }
   }
 
