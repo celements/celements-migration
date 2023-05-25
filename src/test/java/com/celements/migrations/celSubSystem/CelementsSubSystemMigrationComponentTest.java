@@ -19,13 +19,14 @@
  */
 package com.celements.migrations.celSubSystem;
 
+import static com.celements.common.test.CelementsTestUtils.*;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.celements.common.test.AbstractBridgedComponentTestCase;
+import com.celements.common.test.AbstractComponentTest;
 import com.celements.migrations.ISubSystemMigrationManager;
 import com.celements.migrations.SubSystemHibernateMigrationManager;
 import com.xpn.xwiki.XWiki;
@@ -36,7 +37,7 @@ import com.xpn.xwiki.store.XWikiHibernateStore;
 import com.xpn.xwiki.web.Utils;
 
 public class CelementsSubSystemMigrationComponentTest
-    extends AbstractBridgedComponentTestCase {
+    extends AbstractComponentTest {
 
   private XWikiContext context;
   private XWiki xwiki;

@@ -25,11 +25,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.observation.EventListener;
 
-import com.celements.common.test.AbstractBridgedComponentTestCase;
+import com.celements.common.test.AbstractComponentTest;
 import com.xpn.xwiki.web.Utils;
 
 public class MigrationWikiCreatedEventListenerTest
-    extends AbstractBridgedComponentTestCase {
+    extends AbstractComponentTest {
 
   private MigrationWikiCreatedEventListener wikiCreatedEventListener;
 
