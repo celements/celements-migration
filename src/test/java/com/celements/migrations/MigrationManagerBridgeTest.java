@@ -19,21 +19,20 @@
  */
 package com.celements.migrations;
 
+import static com.celements.common.test.CelementsTestUtils.*;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.component.descriptor.ComponentDescriptor;
 
-import com.celements.common.test.AbstractBridgedComponentTestCase;
+import com.celements.common.test.AbstractComponentTest;
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiConfig;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.store.migration.XWikiDBVersion;
-import com.xpn.xwiki.web.Utils;
 
-public class MigrationManagerBridgeTest extends AbstractBridgedComponentTestCase {
+public class MigrationManagerBridgeTest extends AbstractComponentTest {
 
   private XWikiContext context;
   private XWiki xwiki;
@@ -46,7 +45,8 @@ public class MigrationManagerBridgeTest extends AbstractBridgedComponentTestCase
     context.setWiki(xwiki);
     XWikiConfig configMock = createMock(XWikiConfig.class);
     expect(xwiki.getConfig()).andReturn(configMock).anyTimes();
-    expect(configMock.getProperty(eq("xwiki.store.migration.version"))).andReturn("2345").anyTimes();
+    expect(configMock.getProperty(eq("xwiki.store.migration.version"))).andReturn("2345")
+        .anyTimes();
     replay(xwiki, configMock);
     migManagerBridge = new MigrationManagerBridge(context);
   }
@@ -71,19 +71,13 @@ public class MigrationManagerBridgeTest extends AbstractBridgedComponentTestCase
     }
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   public void testStartMigrationsXWikiContext() throws Exception {
-    ISubSystemMigrationCoordinator coordinaterMock = createMock(
+    ISubSystemMigrationCoordinator coordinaterMock = registerComponentMock(
         ISubSystemMigrationCoordinator.class);
-    ComponentDescriptor<ISubSystemMigrationCoordinator> descMock = createMock(
-        ComponentDescriptor.class);
-    expect(descMock.getRole()).andReturn(ISubSystemMigrationCoordinator.class);
-    expect(descMock.getRoleHint()).andReturn(null);
     coordinaterMock.startSubSystemMigrations(same(context));
     expectLastCall().once();
-    replay(coordinaterMock, descMock);
-    Utils.getComponentManager().registerComponent(descMock, coordinaterMock);
+    replay(coordinaterMock);
     migManagerBridge.startMigrations(context);
     verify(xwiki, coordinaterMock);
   }

@@ -19,38 +19,31 @@
  */
 package com.celements.migrations;
 
+import static com.celements.common.test.CelementsTestUtils.*;
 import static org.easymock.EasyMock.*;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.component.descriptor.ComponentDescriptor;
 
-import com.celements.common.test.AbstractBridgedComponentTestCase;
+import com.celements.common.test.AbstractComponentTest;
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiConfig;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.web.Utils;
 
-public class CelSubSystemMigrationCoordinatorTest
-    extends AbstractBridgedComponentTestCase {
+public class CelSubSystemMigrationCoordinatorTest extends AbstractComponentTest {
 
   private XWikiContext context;
   private XWiki xwiki;
   private CelSubSystemMigrationCoordinator celSubSysMigCoordinator;
   private ISubSystemMigrationManager componentMock;
 
-  @SuppressWarnings("unchecked")
   @Before
-  public void setUp_CelSubSystemMigrationCoordinatorTest() throws Exception {
+  public void prepare() throws Exception {
     context = getContext();
     xwiki = createMock(XWiki.class);
     context.setWiki(xwiki);
-    componentMock = createMock(ISubSystemMigrationManager.class);
-    ComponentDescriptor<ISubSystemMigrationManager> descMock = createMock(ComponentDescriptor.class);
-    expect(descMock.getRole()).andReturn(ISubSystemMigrationManager.class);
-    expect(descMock.getRoleHint()).andReturn("testSubSystem");
-    replay(descMock);
-    Utils.getComponentManager().registerComponent(descMock, componentMock);
+    componentMock = registerComponentMock(ISubSystemMigrationManager.class, "testSubSystem");
     // get Coordinator only AFTER registering mock component. Otherwise injection fails
     // adding the mockComponent.
     celSubSysMigCoordinator = (CelSubSystemMigrationCoordinator) Utils.getComponent(

@@ -19,20 +19,21 @@
  */
 package com.xpn.xwiki.store.migration.hibernate;
 
+import static com.celements.common.test.CelementsTestUtils.*;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.celements.common.test.AbstractBridgedComponentTestCase;
+import com.celements.common.test.AbstractComponentTest;
 import com.celements.migrations.ISubSystemMigrationManager;
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiConfig;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.web.Utils;
 
-public class XWikiSubSystemMigrationComponentTest extends AbstractBridgedComponentTestCase {
+public class XWikiSubSystemMigrationComponentTest extends AbstractComponentTest {
 
   private XWikiContext context;
   private XWiki xwiki;
