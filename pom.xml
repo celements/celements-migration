@@ -28,7 +28,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>celements-subsystem-migration-manager</artifactId>
-  <version>6.0-SNAPSHOT</version>
+  <version>6.0</version>
   <description>Celements Subsystem Migration Manager</description>
   <dependencies>
 
@@ -282,6 +282,6 @@
     <connection>scm:git:git@github.com:celements/cel-subsystemMigrationManager.git</connection>
     <developerConnection>scm:git:git@github.com:celements/cel-subsystemMigrationManager.git</developerConnection>
     <url>https://github.com/celements/cel-subsystemMigrationManager</url>
-    <tag>HEAD</tag>
+    <tag>celements-subsystem-migration-manager-6.0</tag>
   </scm>
 </project>
