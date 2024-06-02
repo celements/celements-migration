@@ -10,3 +10,5 @@
 /.settings
 /xwiki.log
 /src/main/java/META-INF
+/.apt_generated/
+/.apt_generated_tests/
